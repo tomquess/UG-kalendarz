@@ -1,0 +1,37 @@
+.calendary_controls{
+    display: flex;
+    justify-content: space-evenly;
+}
+.calendary{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.calendary-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.event-bar{
+    display: block;
+    position: absolute;
+    border-radius: 4px;
+    background-color: red;
+    height: 24px;
+    padding-left: 2rem;
+    text-align: left;
+    z-index: 25;
+}
+.day-element{
+    width: 144px!important;
+
+}
+.border{
+    width: 144px;
+}
+.event-container{
+    position: relative;
+    height: 128px;
+    width: 144px;
+}

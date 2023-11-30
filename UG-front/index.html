@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UG Kalendarz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row text-center">
+            <h1>Kalendarz</h1>
+        </div>
+        <div class="calendary-container">
+            <div class="calendary text-center">
+                <div class="day-element">Niedziela
+                    <div class="border">
+                        <span class="day-value sun">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Poniedziałek
+                    <div class="border">
+                        <span class="day-value mon">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Wtorek
+                    <div class="border">
+                        <span class="day-value tue">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Środa
+                    <div class="border">
+                        <span class="day-value wed">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Czwartek
+                    <div class="border">
+                        <span class="day-value thu">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Piątek
+                    <div class="border">
+                        <span class="day-value fri">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+                <div class="day-element">Sobota
+                    <div class="border">
+                        <span class="day-value sat">1</span>
+                        <div class="event-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="calendary_controls p-3">
+            <button type="button" class="btn btn-secondary" onclick="prevWeek()">Poprzedni tydzień</button>
+            <button type="button" class="btn btn-secondary" onclick="nextWeek()">Następny tydzień</button>
+        </div>
+        <div class="row">
+            <form name="eventForm" id="event-form" method="post">
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="InputName" class="form-label">Nazwa wydarzenia</label>
+                        <input type="text" class="form-control" id="InputName">
+                    </div>
+                    <div class="col mb-3">
+                        <label for="InputPlace" class="form-label">Miejsce wydarzenia</label>
+                        <input type="text" class="form-control" id="InputPlace">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="InputDescription" class="form-label">Opis wydarzenia</label>
+                        <textarea class="form-control" id="InputDescription"> </textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="InputDateStart" class="form-label">Data rozpoczęcia</label>
+                        <input type="datetime-local" class="form-control" id="InputDateStart">
+                    </div>
+                    <div class="col mb-3">
+                        <label for="InputDateEnd" class="form-label">Data zakończenia</label>
+                        <input type="datetime-local" class="form-control" id="InputDateEnd">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="InputColor" class="form-label">Kolor wydarzenia</label>
+                        <input type="color" class="form-control form-control-color" id="InputColor" value="#9762F7">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Dodaj</button>
+            </form>
+        </div>
+    </div>
+    <!-- Edit popup -->
+    <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabel">Edytuj wydarzenie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your edit event form goes here -->
+                    <form id="editEventForm" method="put">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="InputName" class="form-label">Nazwa wydarzenia</label>
+                                    <input type="text" class="form-control" id="InputName">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="InputPlace" class="form-label">Miejsce wydarzenia</label>
+                                    <input type="text" class="form-control" id="InputPlace">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="InputDescription" class="form-label">Opis wydarzenia</label>
+                                    <textarea class="form-control" id="InputDescription"> </textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="InputDateStart" class="form-label">Data rozpoczęcia</label>
+                                    <input type="datetime-local" class="form-control" id="InputDateStart">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="InputDateEnd" class="form-label">Data zakończenia</label>
+                                    <input type="datetime-local" class="form-control" id="InputDateEnd">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="InputColor" class="form-label">Kolor wydarzenia</label>
+                                    <input type="color" class="form-control form-control-color" id="InputColor" value="#9762F7">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEditedEvent()">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
