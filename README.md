@@ -28,13 +28,13 @@ Przed przystąpieniem do instalacji upewnij się, że spełnione są następują
    # Trzeba pamiętać o podaniu dobrego portu, domyślny to :80, a ja używam :8080
    # Trzeba pamiętać o podaniu dobrej ścieżki
    <VirtualHost api.ug-zadanie.local:8080>
-       DocumentRoot "F:/XAMPP/htdocs/SmartbeesCheckout-back/"
+       DocumentRoot "F:/XAMPP/htdocs/UG-back/"
        ServerName api.ug-zadanie.local
    </VirtualHost>
 
    # Frontend
    <VirtualHost ug-zadanie.local:8080>
-       DocumentRoot "F:/XAMPP/htdocs/SmartbeesCheckout-front/"
+       DocumentRoot "F:/XAMPP/htdocs/UG-front/"
        ServerName ug-zadanie.local
    </VirtualHost>
    ```
