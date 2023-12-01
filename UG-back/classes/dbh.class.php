@@ -3,7 +3,7 @@
 class Dbh {
     private $host = "localhost";
     private $port = "4306";
-    private $user = "checkout";
+    private $user = "admin";
     private $pwd = "admin";
     private $dbname="kalendarz";
 

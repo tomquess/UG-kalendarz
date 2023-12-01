@@ -62,25 +62,24 @@ class EventsContr extends Event
             $this->id
         );
     }
+    public function deleteEvent()
+    {
+        $this->delEvent(
+            $this->id
+        );
+    }
 
-    // public function validateOrder()
-    // {
-    //     $this->validation(
-    //         $this->name,
-    //         $this->surname,
-    //         $this->nation,
-    //         $this->address,
-    //         $this->postcode,
-    //         $this->city,
-    //         $this->phonenumber,
-    //         $this->alt_delivery,
-    //         $this->alt_address,
-    //         $this->alt_postcode,
-    //         $this->alt_city,
-    //         $this->delivery_type,
-    //         $this->payment_type,
-    //         $this->newsletter,
-    //         $this->law
-    //     );
-    // }
+    public function validateEvent()
+    {
+        $this->validation(
+            $this->name,
+            $this->place,
+            $this->description,
+            $this->color,
+            $this->date_start,
+            $this->date_end
+        );
+    }
+
+
 }

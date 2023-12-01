@@ -17,10 +17,10 @@ class Event extends Dbh
             color,
             date_start,
             date_end) 
-            VALUES (?, ?, ?, ?, ?, ?);";
-        $stmt = $this->connect()->prepare($sql);
+            VALUES (?, ?, ?, ?, ?, ?);";  // The query that will be executed in sql
+        $stmt = $this->connect()->prepare($sql);  // Prepare the query
 
-        if (!$stmt->execute([
+        if (!$stmt->execute([   // Execute the query, if fails echo a response with http code
             $name,
             $place,
             $description,
@@ -46,9 +46,9 @@ class Event extends Dbh
         $date_end,
         $id
     ) {
-        $sql = "UPDATE wydarzenia SET name = :name, place = :place, description = :description, color = :color, date_start = :date_start, date_end = :date_end WHERE id = :id;";   
+        $sql = "UPDATE wydarzenia SET name = :name, place = :place, description = :description, color = :color, date_start = :date_start, date_end = :date_end WHERE id = :id;";
         $stmt = $this->connect()->prepare($sql);
-        
+
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':place', $place);
         $stmt->bindParam(':description', $description);
@@ -81,34 +81,36 @@ class Event extends Dbh
         }
         return $stmt->fetchAll();
     }
+    protected function delEvent($id)
+    {
+        $sql = "DELETE FROM wydarzenia WHERE id=:id";
+        $stmt = $this->connect()->prepare($sql);
 
-    // protected function validation(
-    //     $name,
-    //     $surname,
-    //     $nation,
-    //     $address,
-    //     $postcode,
-    //     $city,
-    //     $phonenumber,
-    //     $alt_delivery,
-    //     $alt_address,
-    //     $alt_postcode,
-    //     $alt_city,
-    //     $delivery_type,
-    //     $payment_type,
-    //     $newsletter,
-    //     $law
-    // ) {
-    //     Validation::validateName($name);
-    //     Validation::validateSurname($surname);
-    //     Validation::validateNation($nation);
-    //     Validation::validateAddress($address);
-    //     Validation::validatePostcode($postcode);
-    //     Validation::validateCity($city);
-    //     Validation::validatePhonenumber($phonenumber);
-    //     Validation::validateAltAddress($alt_delivery, $alt_address, $alt_postcode, $alt_city);
-    //     Validation::validateDeliverytype($delivery_type);
-    //     Validation::validatePaymenttype($payment_type, $delivery_type);
-    //     Validation::validateChecks($newsletter, $law);
-    // }
+        $stmt->bindParam(':id', $id);
+
+        if (!$stmt->execute()) {
+            $stmt = null;
+            http_response_code(400);
+            echo json_encode(['error' => 'Sql error']);
+            exit();
+        }
+        $stmt = null;
+    }
+
+    protected function validation(
+        $name,
+        $place,
+        $description,
+        $color,
+        $date_start,
+        $date_end
+    ) {
+        Validation::validateName($name);
+        Validation::validatePlace($place);
+        Validation::validateDescription($description);
+        Validation::validateDates(
+            $date_start,
+            $date_end
+        );
+    }
 }

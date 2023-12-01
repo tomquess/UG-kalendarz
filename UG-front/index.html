@@ -21,6 +21,10 @@
         <div class="row text-center">
             <h1>Kalendarz</h1>
         </div>
+        <div class="calendary_controls p-3">
+            <button type="button" class="btn btn-secondary" onclick="prevWeek()">Poprzedni tydzień</button>
+            <button type="button" class="btn btn-secondary" onclick="nextWeek()">Następny tydzień</button>
+        </div>
         <div class="calendary-container">
             <div class="calendary text-center">
                 <div class="day-element">Niedziela
@@ -67,36 +71,47 @@
                 </div>
             </div>
         </div>
-        <div class="calendary_controls p-3">
-            <button type="button" class="btn btn-secondary" onclick="prevWeek()">Poprzedni tydzień</button>
-            <button type="button" class="btn btn-secondary" onclick="nextWeek()">Następny tydzień</button>
-        </div>
         <div class="row">
-            <form name="eventForm" id="event-form" method="post">
+            <form name="eventForm" id="event-form" class="needs-validation" method="post" novalidate>
                 <div class="row">
                     <div class="col mb-3">
                         <label for="InputName" class="form-label">Nazwa wydarzenia</label>
-                        <input type="text" class="form-control" id="InputName">
+                        <input type="text" class="form-control " id="InputName">
+                        <div class="invalid-feedback">
+                            Podaj nazwę wydarzenia (do 55 znaków).
+                        </div>
                     </div>
                     <div class="col mb-3">
                         <label for="InputPlace" class="form-label">Miejsce wydarzenia</label>
                         <input type="text" class="form-control" id="InputPlace">
+                        <div class="invalid-feedback">
+                            Miejsce wydarzenia może mieć maksymalnie 255 znaków.
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col mb-3">
                         <label for="InputDescription" class="form-label">Opis wydarzenia</label>
                         <textarea class="form-control" id="InputDescription"> </textarea>
+                        <div class="invalid-feedback">
+                            Opis wydarzenia może mieć maksymalnie 255 znaków.
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col mb-3">
                         <label for="InputDateStart" class="form-label">Data rozpoczęcia</label>
                         <input type="datetime-local" class="form-control" id="InputDateStart">
+                        <div class="invalid-feedback">
+                            Podaj datę, nie może być póżniejsza niż data zakończenia.
+                        </div>
                     </div>
                     <div class="col mb-3">
                         <label for="InputDateEnd" class="form-label">Data zakończenia</label>
                         <input type="datetime-local" class="form-control" id="InputDateEnd">
+                        <div class="invalid-feedback">
+                            Podaj datę, nie może być wcześniejsza niż data rozpoczęcia.
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -118,45 +133,46 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Your edit event form goes here -->
-                    <form id="editEventForm" method="put">
+                    <form id="editEventForm" class="needs-validation" method="put">
                         <div class="row">
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="InputName" class="form-label">Nazwa wydarzenia</label>
-                                    <input type="text" class="form-control" id="InputName">
+                                    <label for="InputEditName" class="form-label">Nazwa wydarzenia</label>
+                                    <input type="text" class="form-control" id="InputEditName">
+                                    
                                 </div>
                                 <div class="col mb-3">
-                                    <label for="InputPlace" class="form-label">Miejsce wydarzenia</label>
-                                    <input type="text" class="form-control" id="InputPlace">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="InputDescription" class="form-label">Opis wydarzenia</label>
-                                    <textarea class="form-control" id="InputDescription"> </textarea>
+                                    <label for="InputEditPlace" class="form-label">Miejsce wydarzenia</label>
+                                    <input type="text" class="form-control" id="InputEditPlace">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="InputDateStart" class="form-label">Data rozpoczęcia</label>
-                                    <input type="datetime-local" class="form-control" id="InputDateStart">
-                                </div>
-                                <div class="col mb-3">
-                                    <label for="InputDateEnd" class="form-label">Data zakończenia</label>
-                                    <input type="datetime-local" class="form-control" id="InputDateEnd">
+                                    <label for="InputEditDescription" class="form-label">Opis wydarzenia</label>
+                                    <textarea class="form-control" id="InputEditDescription"> </textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="InputColor" class="form-label">Kolor wydarzenia</label>
-                                    <input type="color" class="form-control form-control-color" id="InputColor" value="#9762F7">
+                                    <label for="InputEditDateStart" class="form-label">Data rozpoczęcia</label>
+                                    <input type="datetime-local" class="form-control" id="InputEditDateStart">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="InputEditDateEnd" class="form-label">Data zakończenia</label>
+                                    <input type="datetime-local" class="form-control" id="InputEditDateEnd">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="InputEditColor" class="form-label">Kolor wydarzenia</label>
+                                    <input type="color" class="form-control form-control-color" id="InputEditColor" value="#9762F7">
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteEvent()">USUŃ</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
                     <button type="button" class="btn btn-primary" onclick="saveEditedEvent()">Zapisz</button>
                 </div>

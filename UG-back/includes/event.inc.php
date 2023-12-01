@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");   // Can insert front-end domain; Used * for testing purposes
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {  // The put request wasnt going through when this wasnt included
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type");
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_end = isset($_POST["date_end"]) ? htmlspecialchars($_POST["date_end"]) : null;
 
 
-    //Instantiate classes for Orders class purposes, and validation,
+    //Instantiate classes for Events class purposes and validation
     include "../classes/dbh.class.php";
     include "../classes/validation.class.php";
     include "../classes/event.class.php";
@@ -36,7 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $formattedDate = null,
             $id = null
         );
-        // $order->validateOrder();  // Validate most of the data provided
+
+        $event->validateEvent();  // Validate most of the data provided
         $event->createEvent();  // Save to data base if no exceptions thrown by validator
         $response = [
             'message' => 'Wydarzenie dodane pomyślnie.'
@@ -97,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      $id = isset($_GET["id"]) ? htmlspecialchars($_GET["id"]) : null;
 
 
-    //Instantiate classes for Orders class purposes, and validation,
+    //Instantiate classes for Event class purposes, and validation
     include "../classes/dbh.class.php";
     include "../classes/validation.class.php";
     include "../classes/event.class.php";
@@ -114,8 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $formattedDate = null,
             $id
         );
-        // $order->validateOrder();  // Validate most of the data provided
-        $event->putEvent();  // Save to data base if no exceptions thrown by validator
+        $event->validateEvent();  // Validate most of the data provided
+        $event->putEvent();  // Save to database if no exceptions thrown by validator
         $response = [
             'message' => 'Wydarzenie edytowane pomyślnie.',
             'id' => $id
@@ -131,7 +132,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     header('Content-Type: application/json');
     echo json_encode($response);
-} else {  // This happens if connection method is not set to POST
+} elseif ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+    $id = isset($_GET["id"]) ? htmlspecialchars($_GET["id"]) : null;
+
+    include "../classes/dbh.class.php";
+    include "../classes/event.class.php";
+    include "../classes/eventscontr.class.php";
+
+    try {
+        $event = new EventsContr(
+            $name = null,
+            $place = null,
+            $description = null,
+            $color = null,
+            $date_start = null,
+            $date_end = null,
+            $formattedDate = null,
+            $id
+        );
+
+        $event->deleteEvent();
+        $response = [
+            'message' => 'Wydarzenie edytowane pomyślnie.',
+            'id' => $id
+        ];
+    } catch (PDOException $e) {
+        $response = ['error' => 'Nie można usunąć wydarzenia: ' . $e->getMessage()];
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+} else {  // This happens if connection method is not set to any previously handled
     http_response_code(405); // Method Not Allowed
     echo json_encode(['error' => 'Invalid request method']);
 }
